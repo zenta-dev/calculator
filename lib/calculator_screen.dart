@@ -22,8 +22,15 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
               child: SingleChildScrollView(
                 reverse: true,
                 child: Container(
+                  width: 300,
+                  height: 200,
                   alignment: Alignment.bottomRight,
                   padding: const EdgeInsets.all(16),
+                  margin: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    color: Colors.grey[400],
+                  ),
                   child: Text(
                     "0",
                     style: const TextStyle(
@@ -35,14 +42,17 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                 ),
               ),
             ),
-            Wrap(
-                children: ButtonArea1.values
-                    .map((e) => SizedBox(
-                          width: screenSize.width / 4,
-                          height: screenSize.width / 4,
-                          child: buildButton(text: e.text, color: e.color),
-                        ))
-                    .toList()),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Wrap(
+                  children: ButtonArea1.values
+                      .map((e) => SizedBox(
+                            width: screenSize.width / 4.4,
+                            height: screenSize.width / 4.4,
+                            child: buildButton(text: e.text, color: e.color),
+                          ))
+                      .toList()),
+            ),
           ],
         ),
       ),
@@ -54,7 +64,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
     required Color color,
   }) {
     return Container(
-      margin: EdgeInsets.all(8),
+      margin: EdgeInsets.all(4),
       clipBehavior: Clip.hardEdge,
       decoration:
           BoxDecoration(color: color, borderRadius: BorderRadius.circular(66)),
