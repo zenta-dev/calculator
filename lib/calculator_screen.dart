@@ -22,20 +22,20 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
               child: SingleChildScrollView(
                 reverse: true,
                 child: Container(
-                  width: 300,
-                  height: 200,
+                  width: 325,
+                  height: 228,
                   alignment: Alignment.bottomRight,
-                  padding: const EdgeInsets.all(16),
-                  margin: EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(10),
+                  margin: EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    color: Colors.grey[400],
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color(0XFFCBBFED),
                   ),
                   child: Text(
                     "0",
                     style: const TextStyle(
-                      fontSize: 48,
-                      fontWeight: FontWeight.bold,
+                      fontSize: 96,
+                      fontWeight: FontWeight.normal,
                     ),
                     textAlign: TextAlign.end,
                   ),
@@ -49,7 +49,10 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                       .map((e) => SizedBox(
                             width: screenSize.width / 4.4,
                             height: screenSize.width / 4.4,
-                            child: buildButton(text: e.text, color: e.color),
+                            child: buildButton(
+                                text: e.text,
+                                color: e.color,
+                                textColor: e.textColor),
                           ))
                       .toList()),
             ),
@@ -62,19 +65,20 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   Widget buildButton({
     required String text,
     required Color color,
+    required Color textColor,
   }) {
     return Container(
-      margin: EdgeInsets.all(4),
+      margin: EdgeInsets.all(3),
       clipBehavior: Clip.hardEdge,
       decoration:
-          BoxDecoration(color: color, borderRadius: BorderRadius.circular(66)),
+          BoxDecoration(color: color, borderRadius: BorderRadius.circular(75)),
       child: TextButton(
         onPressed: () {},
         child: Text(
           text,
           style: TextStyle(
-            fontSize: 24,
-            color: Colors.black,
+            fontSize: 32,
+            color: textColor,
           ),
         ),
       ),
