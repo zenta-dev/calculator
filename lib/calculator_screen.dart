@@ -13,9 +13,10 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         bottom: false,
-        child: Column(
+        child: ListView(
           children: [
             Expanded(
               child: SingleChildScrollView(
@@ -35,45 +36,35 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
               ),
             ),
             Wrap(
-              children: Btn.buttonValues
-                  .map(
-                    (value) => SizedBox(
-                      width: screenSize.width / 4,
-                      height: screenSize.width / 5,
-                      child: buildButton(value),
-                    ),
-                  )
-                  .toList(),
-            ),
+                children: ButtonArea1.values
+                    .map((e) => SizedBox(
+                          width: screenSize.width / 4,
+                          height: screenSize.width / 4,
+                          child: buildButton(text: e.text, color: e.color),
+                        ))
+                    .toList()),
           ],
         ),
       ),
     );
   }
 
-  Widget buildButton(value) {
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: Material(
-        color: [Btn.clr, Btn.priority, Btn.per].contains(value)
-            ? Color.fromARGB(184, 214, 167, 255)
-            : [
-                Btn.divide,
-                Btn.multiply,
-                Btn.subtract,
-                Btn.add,
-              ].contains(value)
-                ? Color.fromARGB(95, 110, 116, 165)
-                : Color(0xFFFFC5EB),
-        clipBehavior: Clip.hardEdge,
-        shape: OutlineInputBorder(
-          borderSide: BorderSide(color: Color(0xFFB9AAE8)),
-          borderRadius: BorderRadius.circular(100),
-        ),
-        child: InkWell(
-          onTap: () {},
-          child: Center(
-            child: Text(value),
+  Widget buildButton({
+    required String text,
+    required Color color,
+  }) {
+    return Container(
+      margin: EdgeInsets.all(8),
+      clipBehavior: Clip.hardEdge,
+      decoration:
+          BoxDecoration(color: color, borderRadius: BorderRadius.circular(66)),
+      child: TextButton(
+        onPressed: () {},
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: 24,
+            color: Colors.black,
           ),
         ),
       ),

@@ -1,46 +1,92 @@
-class Btn {
-  static const String clr = "C";
-  static const String priority = "()";
-  static const String per = "%";
-  static const String divide = "÷";
-  static const String multiply = "×";
-  static const String add = "+";
-  static const String subtract = "-";
-  static const String calculate = "=";
-  static const String dot = ".";
-  static const String notation = "+/-";
+import 'package:flutter/material.dart';
 
-  static const String n0 = "0";
-  static const String n1 = "1";
-  static const String n2 = "2";
-  static const String n3 = "3";
-  static const String n4 = "4";
-  static const String n5 = "5";
-  static const String n6 = "6";
-  static const String n7 = "7";
-  static const String n8 = "8";
-  static const String n9 = "9";
+enum ButtonArea1 {
+  clr,
+  priority,
+  per,
+  divide,
+  n7,
+  n8,
+  n9,
+  multiply,
+  n4,
+  n5,
+  n6,
+  subtract,
+  n1,
+  n2,
+  n3,
+  add,
+  dot,
+  n0,
+  notation,
+  calculate,
+}
 
-  static const List<String> buttonValues = [
-    clr,
-    priority,
-    per,
-    divide,
-    n7,
-    n8,
-    n9,
-    multiply,
-    n4,
-    n5,
-    n6,
-    subtract,
-    n1,
-    n2,
-    n3,
-    add,
-    dot,
-    n0,
-    notation,
-    calculate,
-  ];
+extension Lay1Prop on ButtonArea1 {
+  Color get color {
+    switch (this) {
+      case ButtonArea1.clr:
+      case ButtonArea1.priority:
+      case ButtonArea1.per:
+        return Colors.red;
+      case ButtonArea1.divide:
+      case ButtonArea1.multiply:
+      case ButtonArea1.subtract:
+      case ButtonArea1.add:
+        return Colors.grey;
+      case ButtonArea1.calculate:
+        return Colors.tealAccent;
+
+      default:
+        return Colors.purple;
+    }
+  }
+
+  String get text {
+    switch (this) {
+      case ButtonArea1.clr:
+        return "C";
+      case ButtonArea1.priority:
+        return "()";
+      case ButtonArea1.per:
+        return '%';
+      case ButtonArea1.divide:
+        return "÷";
+      case ButtonArea1.multiply:
+        return "*";
+      case ButtonArea1.add:
+        return "+";
+      case ButtonArea1.subtract:
+        return '-';
+      case ButtonArea1.calculate:
+        return '=';
+      case ButtonArea1.dot:
+        return ".";
+      case ButtonArea1.notation:
+        return "+/-";
+      case ButtonArea1.n0:
+        return "0";
+      case ButtonArea1.n1:
+        return "1";
+      case ButtonArea1.n2:
+        return "2";
+      case ButtonArea1.n3:
+        return "3";
+      case ButtonArea1.n4:
+        return "4";
+      case ButtonArea1.n5:
+        return "5";
+      case ButtonArea1.n6:
+        return "6";
+      case ButtonArea1.n7:
+        return "7";
+      case ButtonArea1.n8:
+        return "8";
+      case ButtonArea1.n9:
+        return "9";
+      default:
+        return '';
+    }
+  }
 }
