@@ -9,6 +9,12 @@ class CalculatorScreen extends StatefulWidget {
 }
 
 class _CalculatorScreenState extends State<CalculatorScreen> {
+  double firstNum = 0.0;
+  double secondNum = 0.0;
+  var input = '';
+  var output = '';
+  var operation = '';
+
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -22,24 +28,33 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
               child: SingleChildScrollView(
                 reverse: true,
                 child: Container(
-                  width: 325,
-                  height: 228,
-                  alignment: Alignment.bottomRight,
-                  padding: const EdgeInsets.all(10),
-                  margin: EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Color(0XFFCBBFED),
-                  ),
-                  child: Text(
-                    "0",
-                    style: const TextStyle(
-                      fontSize: 96,
-                      fontWeight: FontWeight.normal,
+                    width: 325,
+                    height: 228,
+                    alignment: Alignment.bottomRight,
+                    padding: const EdgeInsets.all(8),
+                    margin: EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Color(0XFFCBBFED),
                     ),
-                    textAlign: TextAlign.end,
-                  ),
-                ),
+                    child: Column(children: <Widget>[
+                      Text(
+                        "0",
+                        style: const TextStyle(
+                          fontSize: 40,
+                          fontWeight: FontWeight.normal,
+                        ),
+                        textAlign: TextAlign.end,
+                      ),
+                      Text(
+                        "0",
+                        style: const TextStyle(
+                          fontSize: 96,
+                          fontWeight: FontWeight.normal,
+                        ),
+                        textAlign: TextAlign.end,
+                      ),
+                    ])),
               ),
             ),
             Padding(
