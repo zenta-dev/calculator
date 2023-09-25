@@ -67,7 +67,7 @@ extension Lay1Prop on ButtonArea1 {
       case ButtonArea1.per:
         return '%';
       case ButtonArea1.divide:
-        return "÷";
+        return "/";
       case ButtonArea1.multiply:
         return "×";
       case ButtonArea1.add:
