@@ -12,9 +12,9 @@
 Calculator uses a number of open source projects to work properly :
 - [Dart](https://dart.dev/get-dart/) -
 Dart is a versatile, client-optimized programming language, developed by Google, known for building cross-platform mobile, web, and desktop applications.
-- [Swift](https://www.swift.org/getting-started/) 
+- [Swift](https://www.swift.org/getting-started/) -
 Swift is a fast and modern programming language developed by Apple, designed for building iOS, macOS, watchOS, and tvOS applications.
-- [Kotlin](https://kotlinlang.org/docs/command-line.html) 
+- [Kotlin](https://kotlinlang.org/docs/command-line.html) -
 Kotlin is a modern, concise, and interoperable programming language for Android development, known for its simplicity, safety, and seamless integration with Java.
 
 ## Requirement
