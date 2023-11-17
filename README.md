@@ -22,11 +22,10 @@ Kotlin is a modern, concise, and interoperable programming language for Android 
 
 ## User Interface
 ### Light Mode
-![alt text](?raw=true)
+![Light Mode](https://github.com/Zenta-Code/calculator/assets/131133405/1f301015-aa8f-4e45-8bc3-e85c22603d90)
 ### Dark Mode
-![alt text](?raw=true)
+![Dark Mode](https://github.com/Zenta-Code/calculator/assets/131133405/9a481999-0ea5-4afc-bd0e-95d6233448b5)
 ### History
-![alt text](?raw=true)
 
 ## Installation
 
@@ -36,16 +35,3 @@ Kotlin is a modern, concise, and interoperable programming language for Android 
 
 ## License
 > Zenta.Code - Violia (2023)
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
