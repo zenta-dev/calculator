@@ -1,13 +1,12 @@
 # Calculator
-> Introducing a versatile mobile calculator app for seamless mathematical operations. From basic arithmetic to advanced functions, effortlessly calculate sums, differences, products, divisions, percentages, and more. A user-friendly interface ensures quick and accurate computations on the go.
+> Introducing a versatile mobile calculator app for seamless mathematical operations. From basic arithmetic to advanced functions, effortlessly calculate sums, substractions, multiplies, divisions, percentages, and more. A user-friendly interface ensures quick and accurate computations on the go.
 
 ## Features
-- Printing : Easily print documents both color and non-color (black and white).
-- Binding : Seamlessly bind materials.
-- Photo Printing : Conveniently print photos with various size.
-- History : Track past printing activities.
-- EProfile : Manage personal information.
-- Wallet (Payment) : Handle transactions effortlessly.
+- Sum : Addition calculation functionality for quick arithmetic operations.
+- Subtract : Perform subtraction with ease for precise numerical results.
+- Percent : Calculate percentages effortlessly for various mathematical scenarios.
+- Multiply : Swift multiplication capability for efficient and accurate mathematical operations.
+- Divide : Divide numbers seamlessly with this convenient mobile calculator application..
 
 ## Tech
 Calculator uses a number of open source projects to work properly :
