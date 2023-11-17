@@ -29,17 +29,20 @@ extension Lay1Prop on ButtonArea1 {
       case ButtonArea1.clr:
       case ButtonArea1.priority:
       case ButtonArea1.per:
-        return Color(0XFFB9AAE8);
+        return Color(0XFFF6A389);
       case ButtonArea1.divide:
       case ButtonArea1.multiply:
       case ButtonArea1.subtract:
       case ButtonArea1.add:
-        return Color(0XFF5F70CB);
+        return Color(0XFFCB935F);
       case ButtonArea1.calculate:
-        return Color(0XFFFEFFB7);
+        return Color(0XFFFCBB3D);
+      case ButtonArea1.dot:
+      case ButtonArea1.notation:
+        return Color(0XFFF4DFC8); // Add color for dot and notation cases
 
       default:
-        return Color(0XFFFFC5EB);
+        return Color(0XFFF4DFC8);
     }
   }
 
@@ -51,8 +54,7 @@ extension Lay1Prop on ButtonArea1 {
       case ButtonArea1.multiply:
       case ButtonArea1.subtract:
       case ButtonArea1.add:
-        return Color(0XFFFFFFFF);
-
+        return Color(0XFF000000);
       default:
         return Color(0XFF000000);
     }
@@ -67,7 +69,7 @@ extension Lay1Prop on ButtonArea1 {
       case ButtonArea1.per:
         return '%';
       case ButtonArea1.divide:
-        return "/";
+        return "÷";
       case ButtonArea1.multiply:
         return "×";
       case ButtonArea1.add:
