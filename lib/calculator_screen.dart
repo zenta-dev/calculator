@@ -1,7 +1,6 @@
 import 'package:calculator/button_values.dart';
 import 'package:flutter/material.dart';
 import 'package:math_expressions/math_expressions.dart';
-import 'package:outline_material_icons_tv/outline_material_icons.dart';
 
 class CalculatorScreen extends StatefulWidget {
   const CalculatorScreen({Key? key}) : super(key: key);
@@ -13,6 +12,7 @@ class CalculatorScreen extends StatefulWidget {
 class _CalculatorScreenState extends State<CalculatorScreen> {
   String input = '';
   String output = '';
+  List<String> calculationHistory = [];
 
   void onButtonClick(String context) {
     debugPrint(context);
@@ -42,6 +42,13 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
               .replaceAll("×", "*")
               .replaceAll("÷", "/")
               .replaceAll("%", "*0.01");
+
+          // Add missing logic for handling negative numbers
+          userInput = userInput.replaceAllMapped(
+            RegExp(r'(?<=\d)\s*(-)\s*(?=\d)'),
+            (match) => match.group(0)!.contains('-') ? ' - ' : ' + ',
+          );
+
           Parser p = Parser();
           Expression expression = p.parse(userInput);
           ContextModel cm = ContextModel();
@@ -51,6 +58,9 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
             output = output.substring(0, output.length - 2);
           }
           input = output;
+
+          // Add the expression to the calculation history
+          calculationHistory.add("$userInput = $output");
         } catch (e) {
           // Handle parsing or evaluation errors
           output = 'Error';
@@ -123,8 +133,8 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                       width: 350,
                       height: 270,
                       alignment: Alignment.bottomRight,
-                      padding: const EdgeInsets.all(16.0),
-                      margin: EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.all(8.0),
+                      margin: EdgeInsets.all(8.0),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: Color(0XFFF4EAE0),
@@ -133,8 +143,8 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                         children: <Widget>[
                           Container(
                             alignment: Alignment.bottomRight,
-                            padding: const EdgeInsets.all(16.0),
-                            margin: EdgeInsets.all(16.0),
+                            padding: const EdgeInsets.all(8.0),
+                            margin: EdgeInsets.all(8.0),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: Color(0XFFF4EAE0),
@@ -144,7 +154,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                                 Text(
                                   input,
                                   style: const TextStyle(
-                                    fontSize: 40,
+                                    fontSize: 30,
                                     fontWeight: FontWeight.normal,
                                   ),
                                   textAlign: TextAlign.end,
@@ -152,7 +162,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                                 Text(
                                   output,
                                   style: const TextStyle(
-                                    fontSize: 96,
+                                    fontSize: 50,
                                     fontWeight: FontWeight.normal,
                                   ),
                                   textAlign: TextAlign.end,
@@ -172,21 +182,19 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                         children: [
                           IconButton(
                             onPressed: () {
-                              // Add functionality for the history icon here
-                              // For example: Show a dialog with the calculation history
+                              // Show calculation history
+                              showHistoryDialog(context);
                             },
                             icon: Icon(Icons.history),
                           ),
                           IconButton(
                             onPressed: () {
-                              // Add functionality for the delete icon here
-                              // For example: delete the last character in the input
                               if (input.isNotEmpty) {
                                 input = input.substring(0, input.length - 1);
                                 setState(() {});
                               }
                             },
-                            icon: Icon(Icons.delete),
+                            icon: Icon(Icons.backspace_outlined),
                           ),
                         ],
                       ),
@@ -229,16 +237,16 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
         borderRadius: BorderRadius.circular(75),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.shade300, // Shadow color
-            offset: Offset(4, 4), // Shadow position
-            blurRadius: 10, // Shadow blur radius
-            spreadRadius: 1, // Shadow spread radius
+            color: Colors.grey.shade300,
+            offset: Offset(4, 4),
+            blurRadius: 10,
+            spreadRadius: 1,
           ),
           BoxShadow(
-            color: Colors.white, // Highlight color
-            offset: Offset(-4, -4), // Highlight position
-            blurRadius: 10, // Highlight blur radius
-            spreadRadius: 1, // Highlight spread radius
+            color: Colors.white,
+            offset: Offset(-4, -4),
+            blurRadius: 10,
+            spreadRadius: 1,
           ),
         ],
       ),
@@ -261,6 +269,77 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  void showHistoryDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Container(
+            alignment: Alignment.center,
+            child: Text("Calculation History", style: TextStyle(fontSize: 20)),
+          ),
+          content: Container(
+            width: double.maxFinite,
+            child: ListView.builder(
+              itemCount: calculationHistory.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(calculationHistory[index]),
+                );
+              },
+            ),
+          ),
+          backgroundColor: Color(0xFFF4F6F0), // Set background color
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: Color(0xFFCB935F)
+                        .withOpacity(0.83), // Set the container color
+                    borderRadius:
+                        BorderRadius.circular(20), // Set border radius
+                  ),
+                  child: TextButton(
+                    onPressed: () {
+                      // Clear history
+                      setState(() {
+                        calculationHistory.clear();
+                      });
+                      Navigator.pop(context);
+                    },
+                    style: TextButton.styleFrom(
+                      primary: Colors.black, // Set button text color
+                    ),
+                    child: Text("Clear History"),
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Color(0xFFCB935F)
+                        .withOpacity(0.83), // Set the container color
+                    borderRadius:
+                        BorderRadius.circular(20), // Set border radius
+                  ),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    style: TextButton.styleFrom(
+                      primary: Colors.black, // Set button text color
+                    ),
+                    child: Text("Close"),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
     );
   }
 }
