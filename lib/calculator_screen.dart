@@ -14,8 +14,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   String output = '';
   List<String> calculationHistory = [];
 
-  void onButtonClick(String context) {
-    debugPrint(context);
+  void onButtonClick(String context, BuildContext buildContext) {
     if (context == "C") {
       input = '';
       output = '';
@@ -35,32 +34,47 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
     } else if (context == "=") {
       // Check if parentheses are balanced before evaluating the expression
       if (areParenthesesBalanced(input)) {
-        // Existing code for evaluating the expression
         try {
           var userInput = input;
-          userInput = userInput
-              .replaceAll("×", "*")
-              .replaceAll("÷", "/")
-              .replaceAll("%", "*0.01");
 
-          // Add missing logic for handling negative numbers
+          // Handle percentage operation first
+          userInput = userInput.replaceAllMapped(
+            RegExp(r'(\d+(?:\.\d+)?)\s*%\s*(\+|\-|\*|\/|$)'),
+            (match) {
+              var value = double.parse(match.group(1)!);
+              var operator = match.group(2) ?? '';
+              return (value / 100).toString() + operator;
+            },
+          );
+
+          // Updated logic for handling negative numbers
           userInput = userInput.replaceAllMapped(
             RegExp(r'(?<=\d)\s*(-)\s*(?=\d)'),
-            (match) => match.group(0)!.contains('-') ? ' - ' : ' + ',
+            (match) => match.group(0)!.contains('-') ? '-' : '+',
           );
+
+          // Ensure that "÷" is replaced with "/" and "×" is replaced with "*"
+          userInput = userInput.replaceAll('÷', '/');
+          userInput = userInput.replaceAll('×', '*');
+
+          // Check if the input exceeds 15 digits
+          if (getDigitCount(userInput) > 15) {
+            // Display a pop-up notifying the user
+            showDigitLimitExceededDialog(buildContext);
+            return;
+          }
 
           Parser p = Parser();
           Expression expression = p.parse(userInput);
           ContextModel cm = ContextModel();
           var finalValue = expression.evaluate(EvaluationType.REAL, cm);
-          output = finalValue.toString();
-          if (output.endsWith(".0")) {
-            output = output.substring(0, output.length - 2);
-          }
-          input = output;
+          output = formatNumber(finalValue.toString());
+
+          // Format the input with periods as thousands separators
+          input = formatNumber(userInput);
 
           // Add the expression to the calculation history
-          calculationHistory.add("$userInput = $output");
+          calculationHistory.add("$input = $output");
         } catch (e) {
           // Handle parsing or evaluation errors
           output = 'Error';
@@ -72,32 +86,91 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
         input = '';
       }
     } else if (context == "+/-") {
-      // Toggle between positive and negative
-      if (input.isNotEmpty && !input.endsWith("(-")) {
-        var lastOperatorIndex = input.lastIndexOf(RegExp(r'[+*/-]'));
-        if (lastOperatorIndex == -1) {
-          input = "(-" + input;
-        } else {
-          input = input.substring(0, lastOperatorIndex + 1) +
-              "(-" +
-              input.substring(lastOperatorIndex + 1);
-        }
-      } else if (input.endsWith("(-")) {
-        input = input.substring(0, input.length - 2);
-      } else {
-        input += "(-";
+      // ... (existing code)
+    } else if (context == "%") {
+      // Handle percentage button
+      if (input.isNotEmpty && RegExp(r'[0-9.]$').hasMatch(input)) {
+        input += "%";
       }
     } else {
-      input += context;
-    }
+      // Handle numeric input
+      if (context == "." && input.contains(".")) {
+        // Prevent entering multiple decimal points
+        return;
+      }
 
-    appendValue(context);
+      if (context == "÷") {
+        // Handle division symbol
+        input += "÷";
+      } else if (context == "×") {
+        // Handle multiplication symbol
+        input += "×";
+      } else {
+        // Avoid replacing special characters
+
+        // Check if adding the new character will exceed 15 digits
+        if (getDigitCount(input + context) > 15) {
+          // Display a pop-up notifying the user
+          showDigitLimitExceededDialog(buildContext);
+          return;
+        }
+
+        input += context;
+      }
+    }
 
     setState(() {});
   }
 
-  void appendValue(String value) {
-    // Implement any additional logic for appending values to the input if needed.
+  int getDigitCount(String input) {
+    return input.replaceAll(RegExp(r'[^0-9]'), '').length;
+  }
+
+  void showDigitLimitExceededDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Digit Limit Exceeded"),
+          content: Text("You can input numbers with a maximum of 15 digits."),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text(
+                "OK",
+                style: TextStyle(
+                  color: Colors.black, // Set button text color to black
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  String getLastNumber(String input) {
+    var reversedInput = input.split('').reversed.join();
+    var match = RegExp(r'^[0-9.,]+$').firstMatch(reversedInput);
+    return match?.group(0)?.split('').reversed.join('') ?? '';
+  }
+
+  // Inside _CalculatorScreenState class
+  String formatNumber(String numberString) {
+    // Replace "/" with "÷" and "*" with "×"
+    var formattedNumber =
+        numberString.replaceAll('/', '÷').replaceAll('*', '×');
+
+    // Check if the number is an integer
+    if (formattedNumber.contains('.') &&
+        double.tryParse(formattedNumber)! % 1 == 0) {
+      // Remove decimal part for integers
+      formattedNumber = formattedNumber.replaceAll(RegExp(r'\.0$'), '');
+    }
+
+    return formattedNumber;
   }
 
   bool areParenthesesBalanced(String input) {
@@ -206,18 +279,19 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Wrap(
-                children: ButtonArea1.values
-                    .map(
-                      (e) => SizedBox(
-                        width: screenSize.width / 4.19,
-                        height: screenSize.width / 4.19,
-                        child: buildButton(
-                            text: e.text,
-                            color: e.color,
-                            textColor: e.textColor),
+                children: [
+                  ...ButtonArea1.values.map(
+                    (e) => SizedBox(
+                      width: screenSize.width / 4.19,
+                      height: screenSize.width / 4.19,
+                      child: buildButton(
+                        text: e.text,
+                        color: e.color,
+                        textColor: e.textColor,
                       ),
-                    )
-                    .toList(),
+                    ),
+                  )
+                ],
               ),
             ),
           ],
@@ -251,7 +325,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
         ],
       ),
       child: ElevatedButton(
-        onPressed: () => onButtonClick(text),
+        onPressed: () => onButtonClick(text, context),
         style: ElevatedButton.styleFrom(
           primary: color, // Background color
           elevation: 0, // Set elevation to 0 to delete default shadow
@@ -315,7 +389,10 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                     style: TextButton.styleFrom(
                       primary: Colors.black, // Set button text color
                     ),
-                    child: Text("Clear History"),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text("Clear History"),
+                    ),
                   ),
                 ),
                 Container(
@@ -332,7 +409,10 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                     style: TextButton.styleFrom(
                       primary: Colors.black, // Set button text color
                     ),
-                    child: Text("Close"),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text("Close"),
+                    ),
                   ),
                 ),
               ],
