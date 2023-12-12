@@ -33,4 +33,4 @@ Kotlin is a modern, concise, and interoperable programming language for Android 
 ## Development
 
 ## License
-> Zenta.Code - Violia (2023)
+> Zenta.Code (2023)
