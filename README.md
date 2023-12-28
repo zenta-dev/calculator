@@ -6,16 +6,12 @@
 - Subtract : Perform subtraction with ease for precise numerical results.
 - Percent : Calculate percentages effortlessly for various mathematical scenarios.
 - Multiply : Swift multiplication capability for efficient and accurate mathematical operations.
-- Divide : Divide numbers seamlessly with this convenient mobile calculator application..
+- Divide : Divide numbers seamlessly with this convenient mobile calculator application.
 
 ## Tech
 Calculator uses a number of open source projects to work properly :
 - [Dart](https://dart.dev/get-dart/) -
 Dart is a versatile, client-optimized programming language, developed by Google, known for building cross-platform mobile, web, and desktop applications.
-- [Swift](https://www.swift.org/getting-started/) -
-Swift is a fast and modern programming language developed by Apple, designed for building iOS, macOS, watchOS, and tvOS applications.
-- [Kotlin](https://kotlinlang.org/docs/command-line.html) -
-Kotlin is a modern, concise, and interoperable programming language for Android development, known for its simplicity, safety, and seamless integration with Java.
 
 ## Requirement
 
