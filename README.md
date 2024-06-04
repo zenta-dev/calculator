@@ -29,4 +29,4 @@ Dart is a versatile, client-optimized programming language, developed by Google,
 ## Development
 
 ## License
-> Zenta.Code (2023)
+> Zenta.Dev (2023)
